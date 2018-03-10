@@ -14,7 +14,7 @@ if(resp.status !== '9000'){
 resp = card.writeFile(5, new ByteString('EE01', ASCII));
 if(resp.status !== '9000'){
     print('[ERROR] Error when writing event code: ' + resp.status);
-    exit;
+    exit();
 }
 //Writing Seat
 var seatNum = 31;
@@ -22,7 +22,7 @@ var seatString = seatNum.toString();
 resp = card.writeFile(6, new ByteString(seatString + seatString, ASCII));
 if(resp.status !== '9000'){
     print('[ERROR] Error when writing seat: ' + resp.status);
-    exit;
+    exit();
 }
 //Writing Vendor
 resp = card.writeFile(7, new ByteString('VD01', ASCII));
@@ -36,7 +36,7 @@ var grandstand = 25;
 resp = card.writeFile(8, new ByteString(Utils.numbers.fixedLengthIntString(grandstand, 4), ASCII));
 if(resp.status !== '9000'){
     print('[ERROR] Error when writing grandstand: ' + resp.status);
-    exit;
+    exit();
 }
 
 // writting year

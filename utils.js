@@ -24,6 +24,25 @@ Card.prototype.getSerialNumber = function(){
     };
 }
 
+Card.prototype.getCardKey = function(terminalKey){
+    var serial =  card.getSerialNumber();
+    if (serial.status === '9000')
+        serial = serial.data;
+    else{
+        print('[ERROR] Error reading the serial number: ' + resp.status);
+        exit();
+    }
+    var filledSerial = serial.concat(new ByteString('00', HEX));
+    filledSerial = filledSerial.concat(filledSerial);
+    return Utils.bytes.encryptAES_ECB(filledSerial, terminalKey);
+}
+
+Card.prototype.calcMAC = function(macChain, cardKey){
+    var iv = cardKey.add(1);
+    var mac = Utils.bytes.encryptAES_CBC(macChain, cardKey, iv);
+    return mac.right(8).left(4);
+}
+
 Utils = {
     numbers : {},
     bytes : {}

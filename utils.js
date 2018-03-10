@@ -29,8 +29,7 @@ Card.prototype.getCardKey = function(terminalKey){
     if (serial.status === '9000')
         serial = serial.data;
     else{
-        print('[ERROR] Error reading the serial number: ' + resp.status);
-        exit();
+        throw '[ERROR] Error reading the serial number: ' + resp.status;
     }
     var filledSerial = serial.concat(new ByteString('00', HEX));
     filledSerial = filledSerial.concat(filledSerial);

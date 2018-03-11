@@ -33,13 +33,13 @@ try {
     
     // writing grandstand
     var grandstand = 25;
-    grandStand = Utils.numbers.fixedLengthIntString(grandstand, 4)
-    resp = card.writeFile(8, new ByteString(grandStand, ASCII));
+    grandstand = Utils.numbers.fixedLengthIntString(grandstand, 4)
+    resp = card.writeFile(8, new ByteString(grandstand, ASCII));
     if(resp.status !== '9000'){
         throw'[ERROR] Error when writing grandstand: ' + resp.status;
     }
     
-    // writting year
+    // writing year
     var year = 2018;
     year = Utils.numbers.fixedLengthIntString(year, 4)
     resp = card.writeFile(9, new ByteString(year, ASCII));
@@ -56,9 +56,9 @@ try {
     
     //writing MAC
     var cardKey = card.getCardKey(MASTER_KEY);
-    var macChain = access + seatString + seatString + vendor + grandstand + year + date;
+    var macChain = access + event + seatString + seatString + vendor + grandstand + year + date;
     var mac = card.calcMAC(new ByteString(macChain, ASCII), cardKey);
-    
+
     resp = card.writeFile(0x0B, mac);
     if(resp.status !== '9000'){
         throw '[ERROR] Error when writing MAC: ' + resp.status;
@@ -67,5 +67,6 @@ try {
     print(err);
 }
 finally{
+    for(var i=0; i<0x0C; i++) print(card.readFile(i, 4).data);
     card.close()
 }

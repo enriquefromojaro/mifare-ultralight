@@ -63,6 +63,5 @@ try{
     print(err);
 }
 finally{
-    for(var i=0; i<0x0C; i++) print(card.readFile(i, 4).data);
     card.close()
 }
